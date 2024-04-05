@@ -64,6 +64,8 @@ import com.netflix.genie.web.services.JobDirectoryServerService;
 import com.netflix.genie.web.services.JobKillService;
 import com.netflix.genie.web.services.JobLaunchService;
 import com.netflix.genie.web.util.MetricsConstants;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
@@ -722,7 +724,7 @@ public class JobRestController {
         try {
             baseUrl = forwardedFrom == null
                 ? ControllerUtils.getRequestRoot(request, path)
-                : ControllerUtils.getRequestRoot(new URL(forwardedFrom), path);
+                : ControllerUtils.getRequestRoot(Urls.create(forwardedFrom, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS), path);
         } catch (final MalformedURLException e) {
             throw new GenieServerException("Unable to parse base request url", e);
         }

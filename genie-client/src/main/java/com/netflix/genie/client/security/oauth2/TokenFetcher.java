@@ -19,6 +19,8 @@ package com.netflix.genie.client.security.oauth2;
 
 import com.netflix.genie.client.apis.TokenService;
 import com.netflix.genie.client.exceptions.GenieClientException;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import retrofit2.Response;
@@ -98,7 +100,7 @@ public class TokenFetcher {
         }
 
         try {
-            final URL url = new URL(oauthUrl);
+            final URL url = Urls.create(oauthUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 
             // Construct the Base path of the type http[s]://serverhost/ for retrofit to work.
             final String oAuthServerUrl = url.getProtocol() + "://" + url.getHost() + "/";
