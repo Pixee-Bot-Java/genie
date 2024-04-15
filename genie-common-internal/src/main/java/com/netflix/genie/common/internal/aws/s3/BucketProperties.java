@@ -101,7 +101,7 @@ public class BucketProperties {
         if (roleARN != null) {
             final AmazonResourceName arn = AmazonResourceName.fromString(roleARN);
             final String awsService = arn.getService();
-            if (awsService.equals(IAM_SERVICE_NAMESPACE)) {
+            if (IAM_SERVICE_NAMESPACE.equals(awsService)) {
                 this.roleARN = arn;
             } else {
                 throw new IllegalArgumentException(
