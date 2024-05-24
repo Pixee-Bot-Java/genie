@@ -139,10 +139,10 @@ public class JobResolverServiceImpl implements JobResolverService {
     private static final String VERSION_4 = "4";
     private static final Tag SAVED_TAG = Tag.of("saved", "true");
     private static final Tag NOT_SAVED_TAG = Tag.of("saved", "false");
-    private static final Tag NO_CLUSTER_RESOLVED_ID = Tag.of(MetricsConstants.TagKeys.CLUSTER_ID, "None Resolved");
-    private static final Tag NO_CLUSTER_RESOLVED_NAME = Tag.of(MetricsConstants.TagKeys.CLUSTER_NAME, "None Resolved");
-    private static final Tag NO_COMMAND_RESOLVED_ID = Tag.of(MetricsConstants.TagKeys.COMMAND_ID, "None Resolved");
-    private static final Tag NO_COMMAND_RESOLVED_NAME = Tag.of(MetricsConstants.TagKeys.COMMAND_NAME, "None Resolved");
+    private static final Tag NO_CLUSTER_RESOLVED_ID = Tag.of(MetricsConstants.TagKeys.CLUSTER_ID, NONE_RESOLVED);
+    private static final Tag NO_CLUSTER_RESOLVED_NAME = Tag.of(MetricsConstants.TagKeys.CLUSTER_NAME, NONE_RESOLVED);
+    private static final Tag NO_COMMAND_RESOLVED_ID = Tag.of(MetricsConstants.TagKeys.COMMAND_ID, NONE_RESOLVED);
+    private static final Tag NO_COMMAND_RESOLVED_NAME = Tag.of(MetricsConstants.TagKeys.COMMAND_NAME, NONE_RESOLVED);
 
     private static final String ID_FIELD = "id";
     private static final String NAME_FIELD = "name";
@@ -1132,5 +1132,7 @@ public class JobResolverServiceImpl implements JobResolverService {
             return new ResolvedJob(jobSpecification, jobEnvironment, this.jobRequest.getMetadata());
         }
     }
+    
+    private static final String NONE_RESOLVED = "None Resolved";
     //endregion
 }

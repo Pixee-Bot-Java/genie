@@ -104,7 +104,7 @@ class GRpcAgentJobServiceImpl implements AgentJobService {
         try {
             request = jobServiceProtoConverter.toHandshakeRequestProto(agentClientMetadata);
         } catch (final GenieConversionException e) {
-            throw new HandshakeException("Failed to construct request from parameters", e);
+            throw new HandshakeException(FAILED_TO_CONSTRUCT_REQUEST_FROM_PARAMETERS, e);
         }
 
         final HandshakeResponse response = handleResponseFuture(this.client.handshake(request));
@@ -140,7 +140,7 @@ class GRpcAgentJobServiceImpl implements AgentJobService {
         try {
             request = jobServiceProtoConverter.toConfigureRequestProto(agentClientMetadata);
         } catch (final GenieConversionException e) {
-            throw new ConfigureException("Failed to construct request from parameters", e);
+            throw new ConfigureException(FAILED_TO_CONSTRUCT_REQUEST_FROM_PARAMETERS, e);
         }
 
         final ConfigureResponse response = handleResponseFuture(this.client.configure(request));
@@ -160,7 +160,7 @@ class GRpcAgentJobServiceImpl implements AgentJobService {
         try {
             request = jobServiceProtoConverter.toReserveJobIdRequestProto(agentJobRequest, agentClientMetadata);
         } catch (final GenieConversionException e) {
-            throw new JobReservationException("Failed to construct request from parameters", e);
+            throw new JobReservationException(FAILED_TO_CONSTRUCT_REQUEST_FROM_PARAMETERS, e);
         }
 
         final ReserveJobIdResponse response = handleResponseFuture(this.client.reserveJobId(request));
@@ -223,7 +223,7 @@ class GRpcAgentJobServiceImpl implements AgentJobService {
         try {
             request = jobServiceProtoConverter.toDryRunJobSpecificationRequestProto(jobRequest);
         } catch (final GenieConversionException e) {
-            throw new JobSpecificationResolutionException("Failed to construct request from parameters", e);
+            throw new JobSpecificationResolutionException(FAILED_TO_CONSTRUCT_REQUEST_FROM_PARAMETERS, e);
         }
 
         final JobSpecificationResponse response =
@@ -433,4 +433,6 @@ class GRpcAgentJobServiceImpl implements AgentJobService {
         }
         return response;
     }
+    
+    private static final String FAILED_TO_CONSTRUCT_REQUEST_FROM_PARAMETERS = "Failed to construct request from parameters";
 }

@@ -268,7 +268,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         return EntityV4DtoConverters.toV4ApplicationDto(
             this.applicationRepository
                 .getApplicationDto(id)
-                .orElseThrow(() -> new NotFoundException("No application with id " + id + " exists"))
+                .orElseThrow(() -> new NotFoundException(NO_APPLICATION_WITH_ID + id + EXISTS))
         );
     }
 
@@ -411,7 +411,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         this.updateApplicationEntity(
             this.applicationRepository
                 .getApplicationDto(id)
-                .orElseThrow(() -> new NotFoundException("No application with id " + id + " exists")),
+                .orElseThrow(() -> new NotFoundException(NO_APPLICATION_WITH_ID + id + EXISTS)),
             updateApp.getResources(),
             updateApp.getMetadata()
         );
@@ -454,7 +454,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         log.debug("[getCommandsForApplication] Called for application {} filtered by statuses {}", id, statuses);
         return this.applicationRepository
             .getApplicationAndCommandsDto(id)
-            .orElseThrow(() -> new NotFoundException("No application with id " + id + " exists"))
+            .orElseThrow(() -> new NotFoundException(NO_APPLICATION_WITH_ID + id + EXISTS))
             .getCommands()
             .stream()
             .filter(
@@ -506,7 +506,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         return EntityV4DtoConverters.toV4ClusterDto(
             this.clusterRepository
                 .getClusterDto(id)
-                .orElseThrow(() -> new NotFoundException("No cluster with id " + id + " exists"))
+                .orElseThrow(() -> new NotFoundException(NO_CLUSTER_WITH_ID + id + EXISTS))
         );
     }
 
@@ -648,7 +648,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         this.updateClusterEntity(
             this.clusterRepository
                 .getClusterDto(id)
-                .orElseThrow(() -> new NotFoundException("No cluster with id " + id + " exists")),
+                .orElseThrow(() -> new NotFoundException(NO_CLUSTER_WITH_ID + id + EXISTS)),
             updateCluster.getResources(),
             updateCluster.getMetadata()
         );
@@ -814,7 +814,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         return EntityV4DtoConverters.toV4CommandDto(
             this.commandRepository
                 .getCommandDto(id)
-                .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"))
+                .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS))
         );
     }
 
@@ -952,7 +952,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         this.updateCommandEntity(
             this.commandRepository
                 .getCommandDto(id)
-                .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists")),
+                .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS)),
             updateCommand.getResources(),
             updateCommand.getMetadata(),
             updateCommand.getExecutable(),
@@ -980,7 +980,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         this.deleteCommandEntity(
             this.commandRepository
                 .getCommandAndApplications(id)
-                .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"))
+                .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS))
         );
     }
 
@@ -995,12 +995,12 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         log.debug("[addApplicationsForCommand] Called to add {} to {}", applicationIds, id);
         final CommandEntity commandEntity = this.commandRepository
             .getCommandAndApplications(id)
-            .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"));
+            .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS));
         for (final String applicationId : applicationIds) {
             commandEntity.addApplication(
                 this.applicationRepository
                     .getApplicationAndCommands(applicationId)
-                    .orElseThrow(() -> new NotFoundException("No application with id " + applicationId + " exists"))
+                    .orElseThrow(() -> new NotFoundException(NO_APPLICATION_WITH_ID + applicationId + EXISTS))
             );
         }
     }
@@ -1019,13 +1019,13 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         }
         final CommandEntity commandEntity = this.commandRepository
             .getCommandAndApplications(id)
-            .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"));
+            .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS));
         final List<ApplicationEntity> applicationEntities = Lists.newArrayList();
         for (final String applicationId : applicationIds) {
             applicationEntities.add(
                 this.applicationRepository
                     .getApplicationAndCommands(applicationId)
-                    .orElseThrow(() -> new NotFoundException("No application with id " + applicationId + " exists"))
+                    .orElseThrow(() -> new NotFoundException(NO_APPLICATION_WITH_ID + applicationId + EXISTS))
             );
         }
         commandEntity.setApplications(applicationEntities);
@@ -1039,7 +1039,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         log.debug("[getApplicationsForCommand] Called for {}", id);
         return this.commandRepository
             .getCommandAndApplicationsDto(id)
-            .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"))
+            .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS))
             .getApplications()
             .stream()
             .map(EntityV4DtoConverters::toV4ApplicationDto)
@@ -1056,7 +1056,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         log.debug("[removeApplicationsForCommand] Called to for {}", id);
         this.commandRepository
             .getCommandAndApplications(id)
-            .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"))
+            .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS))
             .setApplications(null);
     }
 
@@ -1071,11 +1071,11 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         log.debug("[removeApplicationForCommand] Called to for {} from {}", appId, id);
         this.commandRepository
             .getCommandAndApplications(id)
-            .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"))
+            .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS))
             .removeApplication(
                 this.applicationRepository
                     .getApplicationAndCommands(appId)
-                    .orElseThrow(() -> new NotFoundException("No application with id " + appId + " exists"))
+                    .orElseThrow(() -> new NotFoundException(NO_APPLICATION_WITH_ID + appId + EXISTS))
             );
     }
 
@@ -1104,7 +1104,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         log.debug("[getClusterCriteriaForCommand] Called to get cluster criteria for command {}", id);
         return this.commandRepository
             .getCommandAndClusterCriteria(id)
-            .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"))
+            .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS))
             .getClusterCriteria()
             .stream()
             .map(EntityV4DtoConverters::toCriterionDto)
@@ -1122,7 +1122,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         log.debug("[addClusterCriterionForCommand] Called to add cluster criteria {} for command {}", criterion, id);
         this.commandRepository
             .getCommandAndClusterCriteria(id)
-            .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"))
+            .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS))
             .addClusterCriterion(this.toCriterionEntity(criterion));
     }
 
@@ -1143,7 +1143,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         );
         this.commandRepository
             .getCommandAndClusterCriteria(id)
-            .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"))
+            .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS))
             .addClusterCriterion(this.toCriterionEntity(criterion), priority);
     }
 
@@ -1162,7 +1162,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         );
         final CommandEntity commandEntity = this.commandRepository
             .getCommandAndClusterCriteria(id)
-            .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"));
+            .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS));
         this.updateClusterCriteria(commandEntity, clusterCriteria);
     }
 
@@ -1178,7 +1178,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         );
         final CommandEntity commandEntity = this.commandRepository
             .getCommandAndClusterCriteria(id)
-            .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"));
+            .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS));
         if (priority >= commandEntity.getClusterCriteria().size()) {
             throw new NotFoundException(
                 "No criterion with priority " + priority + " exists for command " + id + ". Unable to remove."
@@ -1203,7 +1203,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         this.deleteAllClusterCriteria(
             this.commandRepository
                 .getCommandAndClusterCriteria(id)
-                .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"))
+                .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS))
         );
     }
 
@@ -1313,7 +1313,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         return EntityV3DtoConverters.toJobDto(
             this.jobRepository
                 .getV3Job(id)
-                .orElseThrow(() -> new GenieNotFoundException("No job with id " + id))
+                .orElseThrow(() -> new GenieNotFoundException(NO_JOB_WITH_ID + id))
         );
     }
 
@@ -1326,7 +1326,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         return EntityV3DtoConverters.toJobExecutionDto(
             this.jobRepository
                 .findByUniqueId(id, JobExecutionProjection.class)
-                .orElseThrow(() -> new GenieNotFoundException("No job with id " + id))
+                .orElseThrow(() -> new GenieNotFoundException(NO_JOB_WITH_ID + id))
         );
     }
 
@@ -1595,7 +1595,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         return this.jobRepository
             .getV4JobRequest(id)
             .map(EntityV4DtoConverters::toV4JobRequestDto)
-            .orElseThrow(() -> new NotFoundException("No job ith id " + id + " exists"));
+            .orElseThrow(() -> new NotFoundException("No job ith id " + id + EXISTS));
     }
 
     /**
@@ -1827,7 +1827,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
 
         this.jobRepository
             .findByUniqueId(id)
-            .orElseThrow(() -> new NotFoundException("No job exists for the id specified"))
+            .orElseThrow(() -> new NotFoundException(NO_JOB_EXISTS_FOR_THE_ID_SPECIFIED))
             .setArchiveStatus(archiveStatus.name());
 
         log.debug(
@@ -1845,7 +1845,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         return DtoConverters.toV4JobStatus(
             this.jobRepository
                 .getJobStatus(id)
-                .orElseThrow(() -> new NotFoundException("No job with id " + id + " exists. Unable to get status."))
+                .orElseThrow(() -> new NotFoundException(NO_JOB_WITH_ID + id + " exists. Unable to get status."))
         );
     }
 
@@ -1858,7 +1858,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
             return ArchiveStatus.valueOf(
                 this.jobRepository
                     .getArchiveStatus(id)
-                    .orElseThrow(() -> new NotFoundException("No job with id " + id + " exists"))
+                    .orElseThrow(() -> new NotFoundException(NO_JOB_WITH_ID + id + EXISTS))
             );
         } catch (IllegalArgumentException e) {
             return ArchiveStatus.UNKNOWN;
@@ -1882,7 +1882,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
                     .getSingleResult()
             );
         } catch (final NoResultException e) {
-            throw new NotFoundException("No job with id " + id + " exits.", e);
+            throw new NotFoundException(NO_JOB_WITH_ID + id + " exits.", e);
         }
     }
 
@@ -1894,7 +1894,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         // TODO
         return this.jobRepository.findByUniqueId(id, FinishedJobProjection.class)
             .map(EntityV4DtoConverters::toFinishedJobDto)
-            .orElseThrow(() -> new NotFoundException("No job with id " + id + " exists."));
+            .orElseThrow(() -> new NotFoundException(NO_JOB_WITH_ID + id + " exists."));
     }
 
     /**
@@ -1904,7 +1904,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
     public boolean isApiJob(@NotBlank final String id) throws NotFoundException {
         return this.jobRepository
             .isAPI(id)
-            .orElseThrow(() -> new NotFoundException("No job with id " + id + " exists"));
+            .orElseThrow(() -> new NotFoundException(NO_JOB_WITH_ID + id + EXISTS));
     }
 
     /**
@@ -1915,7 +1915,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         log.debug("[getJobCluster] Called for job {}", id);
         return EntityV4DtoConverters.toV4ClusterDto(
             this.jobRepository.getJobCluster(id)
-                .orElseThrow(() -> new NotFoundException("No job with id " + id + " exists"))
+                .orElseThrow(() -> new NotFoundException(NO_JOB_WITH_ID + id + EXISTS))
                 .getCluster()
                 .orElseThrow(() -> new NotFoundException("Job " + id + " has no associated cluster"))
         );
@@ -1929,7 +1929,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
         log.debug("[getJobCommand] Called for job {}", id);
         return EntityV4DtoConverters.toV4CommandDto(
             this.jobRepository.getJobCommand(id)
-                .orElseThrow(() -> new NotFoundException("No job with id " + id + " exists"))
+                .orElseThrow(() -> new NotFoundException(NO_JOB_WITH_ID + id + EXISTS))
                 .getCommand()
                 .orElseThrow(() -> new NotFoundException("Job " + id + " has no associated command"))
         );
@@ -1942,7 +1942,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
     public List<Application> getJobApplications(@NotBlank final String id) throws NotFoundException {
         log.debug("[getJobApplications] Called for job {}", id);
         return this.jobRepository.getJobApplications(id)
-            .orElseThrow(() -> new NotFoundException("No job with id " + id + " exists"))
+            .orElseThrow(() -> new NotFoundException(NO_JOB_WITH_ID + id + EXISTS))
             .getApplications()
             .stream()
             .map(EntityV4DtoConverters::toV4ApplicationDto)
@@ -2054,7 +2054,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
 
         this.jobRepository
             .findByUniqueId(id)
-            .orElseThrow(() -> new NotFoundException("No job exists for the id specified"))
+            .orElseThrow(() -> new NotFoundException(NO_JOB_EXISTS_FOR_THE_ID_SPECIFIED))
             .setRequestedLauncherExt(launcherExtension);
 
         log.debug("[updateRequestedLauncherExt] Updated launcher requested ext of job {}", id);
@@ -2081,7 +2081,7 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
 
         this.jobRepository
             .findByUniqueId(id)
-            .orElseThrow(() -> new NotFoundException("No job exists for the id specified"))
+            .orElseThrow(() -> new NotFoundException(NO_JOB_EXISTS_FOR_THE_ID_SPECIFIED))
             .setLauncherExt(launcherExtension);
 
         log.debug("[updateLauncherExt] Updated launcher ext of job {}", id);
@@ -2342,25 +2342,25 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
     private ApplicationEntity getApplicationEntity(final String id) throws NotFoundException {
         return this.applicationRepository
             .findByUniqueId(id)
-            .orElseThrow(() -> new NotFoundException("No application with id " + id + " exists"));
+            .orElseThrow(() -> new NotFoundException(NO_APPLICATION_WITH_ID + id + EXISTS));
     }
 
     private ClusterEntity getClusterEntity(final String id) throws NotFoundException {
         return this.clusterRepository
             .findByUniqueId(id)
-            .orElseThrow(() -> new NotFoundException("No cluster with id " + id + " exists"));
+            .orElseThrow(() -> new NotFoundException(NO_CLUSTER_WITH_ID + id + EXISTS));
     }
 
     private CommandEntity getCommandEntity(final String id) throws NotFoundException {
         return this.commandRepository
             .findByUniqueId(id)
-            .orElseThrow(() -> new NotFoundException("No command with id " + id + " exists"));
+            .orElseThrow(() -> new NotFoundException(NO_COMMAND_WITH_ID + id + EXISTS));
     }
 
     private JobEntity getJobEntity(final String id) throws NotFoundException {
         return this.jobRepository
             .findByUniqueId(id)
-            .orElseThrow(() -> new NotFoundException("No job with id " + id + " exists"));
+            .orElseThrow(() -> new NotFoundException(NO_JOB_WITH_ID + id + EXISTS));
     }
 
     private FileEntity createOrGetFileEntity(final String file) {
@@ -2779,5 +2779,17 @@ public class JpaPersistenceServiceImpl implements PersistenceService {
             imagesSetter.accept(GenieObjectMapper.getMapper().valueToTree(images));
         }
     }
+    
+    private static final String NO_JOB_EXISTS_FOR_THE_ID_SPECIFIED = "No job exists for the id specified";
+    
+    private static final String EXISTS = " exists";
+    
+    private static final String NO_JOB_WITH_ID = "No job with id ";
+    
+    private static final String NO_APPLICATION_WITH_ID = "No application with id ";
+    
+    private static final String NO_CLUSTER_WITH_ID = "No cluster with id ";
+    
+    private static final String NO_COMMAND_WITH_ID = "No command with id ";
     //endregion
 }
