@@ -64,6 +64,7 @@ import com.netflix.genie.web.services.JobDirectoryServerService;
 import com.netflix.genie.web.services.JobKillService;
 import com.netflix.genie.web.services.JobLaunchService;
 import com.netflix.genie.web.util.MetricsConstants;
+import io.github.pixee.security.Newlines;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
@@ -843,7 +844,7 @@ public class JobRestController {
             // only copy headers that are needed.
             //
             if (!TRANSFER_ENCODING_HEADER.equalsIgnoreCase(header.getKey())) {
-                response.setHeader(header.getKey(), header.getValue());
+                response.setHeader(header.getKey(), Newlines.stripAll(header.getValue()));
             }
         }
     }
