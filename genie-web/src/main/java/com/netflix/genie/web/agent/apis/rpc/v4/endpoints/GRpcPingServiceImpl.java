@@ -89,6 +89,9 @@ public class GRpcPingServiceImpl extends PingServiceGrpc.PingServiceImplBase {
     }
 
     static final class ServerMetadataKeys {
+        private ServerMetadataKeys() {
+        }
+        
         static final String SERVER_NAME = "hostName";
     }
 }
