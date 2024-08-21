@@ -21,6 +21,7 @@ import com.netflix.genie.web.dtos.ResourceSelectionResult;
 import com.netflix.genie.web.exceptions.checked.ResourceSelectionException;
 import com.netflix.genie.web.selectors.ResourceSelectionContext;
 import com.netflix.genie.web.selectors.ResourceSelector;
+import java.security.SecureRandom;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nullable;
@@ -42,7 +43,7 @@ import java.util.Random;
 class RandomResourceSelector<R, C extends ResourceSelectionContext<R>> implements ResourceSelector<R, C> {
 
     static final String SELECTION_RATIONALE = "Selected randomly";
-    private final Random random = new Random();
+    private final Random random = new SecureRandom();
 
     /**
      * {@inheritDoc}
