@@ -17,6 +17,8 @@
  */
 package com.netflix.genie.web.apis.rest.v3.controllers;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.AntPathMatcher;
@@ -85,7 +87,7 @@ public final class ControllerUtils {
         final HttpServletRequest request,
         @Nullable final String path
     ) throws MalformedURLException {
-        return getRequestRoot(new URL(request.getRequestURL().toString()), path);
+        return getRequestRoot(Urls.create(request.getRequestURL().toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS), path);
     }
 
     /**
@@ -107,6 +109,6 @@ public final class ControllerUtils {
     static URL getRequestRoot(final URL request, @Nullable final String path) throws MalformedURLException {
         final String currentPath = request.getPath();
         final String newPath = StringUtils.removeEnd(currentPath, path);
-        return new URL(request.getProtocol(), request.getHost(), request.getPort(), newPath);
+        return Urls.create(request.getProtocol(), request.getHost(), request.getPort(), newPath, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
     }
 }
