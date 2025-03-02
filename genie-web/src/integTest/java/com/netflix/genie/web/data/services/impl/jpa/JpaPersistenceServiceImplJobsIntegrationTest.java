@@ -64,6 +64,7 @@ import com.netflix.genie.web.dtos.JobSubmission;
 import com.netflix.genie.web.dtos.ResolvedJob;
 import com.netflix.genie.web.exceptions.checked.IdAlreadyExistsException;
 import com.netflix.genie.web.exceptions.checked.NotFoundException;
+import java.security.SecureRandom;
 import org.assertj.core.api.Assertions;
 import org.hibernate.Hibernate;
 import org.junit.jupiter.api.Test;
@@ -1472,7 +1473,7 @@ class JpaPersistenceServiceImplJobsIntegrationTest extends JpaPersistenceService
     private JobEnvironment createJobEnvironment() {
         final Map<String, Image> images = new HashMap<>();
         final List<String> arguments = new ArrayList<>();
-        for (int i = 0; i < new Random().nextInt(10); i++) {
+        for (int i = 0; i < new SecureRandom().nextInt(10); i++) {
             arguments.add(String.valueOf(i));
             images.put(
                 UUID.randomUUID().toString(),
