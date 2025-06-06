@@ -17,6 +17,7 @@
  */
 package com.netflix.genie.test.suppliers;
 
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Random;
 import java.util.UUID;
@@ -34,7 +35,7 @@ public final class RandomSuppliers {
      * Get a random String.
      */
     public static final Supplier<String> STRING = UUID.randomUUID()::toString;
-    private static final Random RANDOM = new Random();
+    private static final Random RANDOM = new SecureRandom();
     /**
      * Get a random integer.
      */
